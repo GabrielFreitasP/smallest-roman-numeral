@@ -87,7 +87,7 @@ func romanToInt(s string) int {
 
 func isPrimeNumber(num int) bool {
 	if num < 2 {
-		return true
+		return false
 	}
 
 	sq := int(math.Sqrt(float64(num)))
