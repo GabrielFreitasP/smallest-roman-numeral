@@ -10,6 +10,7 @@ import (
 
 var (
 	BadRequest          = errors.New("bad request")
+	NotFound            = errors.New("not found")
 	RequestTimeoutError = errors.New("request timeout")
 	InternalServerError = errors.New("internal Server Error")
 )
@@ -55,9 +56,10 @@ func NewRestError(status int, err string, causes interface{}) RestErr {
 // Parser of error string messages returns RestError
 func ParseErrors(err error) RestErr {
 	switch {
-	case strings.Contains(err.Error(), "Unmarshal"),
-		strings.Contains(err.Error(), "EOF"):
+	case strings.Contains(err.Error(), "unmarshal"):
 		return NewRestError(http.StatusBadRequest, BadRequest.Error(), err)
+	case strings.Contains(err.Error(), "EOF"):
+		return NewRestError(http.StatusNotFound, NotFound.Error(), err)
 	case errors.Is(err, context.DeadlineExceeded):
 		return NewRestError(http.StatusRequestTimeout, RequestTimeoutError.Error(), err)
 	default:
@@ -67,5 +69,6 @@ func ParseErrors(err error) RestErr {
 
 // Error response
 func ErrorResponse(err error) (int, interface{}) {
-	return ParseErrors(err).Status(), ParseErrors(err)
+	restErr := ParseErrors(err)
+	return restErr.Status(), restErr
 }

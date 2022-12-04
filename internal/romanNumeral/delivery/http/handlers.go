@@ -40,12 +40,15 @@ func (h *romanNumeralHandlers) Search() echo.HandlerFunc {
 		romanNumeralSearch := &models.RomanNumeralSearch{}
 		err := utils.SanitizeRequest(c, romanNumeralSearch)
 		if err != nil {
-			return utils.ErrResponseWithLog(c, h.logger, err)
+			return utils.ErrResponseDefault(c, h.logger, err)
 		}
 
 		foundRomanNumeral, err := h.uc.Search(ctx, romanNumeralSearch)
 		if err != nil {
-			return utils.ErrResponseWithLog(c, h.logger, err)
+			if err == romanNumeral.PrimeRomanNumeralNotFound {
+				return utils.ErrResponse(c, h.logger, http.StatusNotFound, err)
+			}
+			return utils.ErrResponseDefault(c, h.logger, err)
 		}
 
 		return c.JSON(http.StatusOK, foundRomanNumeral)
