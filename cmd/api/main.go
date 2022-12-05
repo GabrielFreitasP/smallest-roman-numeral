@@ -17,9 +17,15 @@ const configPath = "./config/config-local"
 // @contact.url https://github.com/GabrielFreitasP
 // @contact.email gabrieldefreitaspinheiro@gmail.com
 func main() {
-	log.Println("Starting API server")
+	cfg := initConfig()
 
-	// Init configuration
+	appLogger := initLogger(cfg)
+
+	initServer(cfg, appLogger)
+}
+
+// Init configuration
+func initConfig() *config.Config {
 	cfgFile, err := config.LoadConfig(configPath)
 	if err != nil {
 		log.Fatalf("Error loading configuration: %v", err)
@@ -30,14 +36,22 @@ func main() {
 		log.Fatalf("Error parsing configuration: %v", err)
 	}
 
-	// Init logger
+	return cfg
+}
+
+// Init logger
+func initLogger(cfg *config.Config) logger.Logger {
 	appLogger := logger.NewApiLogger(cfg)
 	appLogger.InitLogger()
 	appLogger.Infof("AppVersion: %s, LogLevel: %s, Mode: %s", cfg.Server.AppVersion, cfg.Logger.Level, cfg.Server.Mode)
 
-	// Start server
+	return appLogger
+}
+
+// Init server
+func initServer(cfg *config.Config, appLogger logger.Logger) {
 	s := server.NewServer(cfg, appLogger)
-	if err = s.Run(); err != nil {
+	if err := s.Run(); err != nil {
 		log.Fatal(err)
 	}
 }
