@@ -2,13 +2,14 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 	"github.com/GabrielFreitasP/smallest-roman-numeral/internal/models"
 	"github.com/GabrielFreitasP/smallest-roman-numeral/internal/romanNumeral"
 	"github.com/opentracing/opentracing-go"
 	"math"
 	"regexp"
 )
+
+const RomanNumeralPattern = `M{0,4}(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})`
 
 // Roman numerals
 var RomanNumerals = map[rune]int{
@@ -35,23 +36,19 @@ func (uc *UseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumer
 	span, ctx := opentracing.StartSpanFromContext(ctx, "numUC.Search")
 	defer span.Finish()
 
-	text := romanNumSearch.Text
-	fmt.Println(text)
-
-	pattern := `M{0,4}(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})`
-	r := regexp.MustCompile(pattern)
-	romanNums := r.FindAllString(text, -1)
+	romanNums := uc.getRomanNumbers(romanNumSearch.Text)
 
 	var romanNumNumber string
 	var romanNumValue int
 	for _, num := range romanNums {
-		if len(num) > 0 {
-			value := uc.romanToInt(num)
-			isPrime := uc.isPrimeNumber(value)
-			if isPrime && (romanNumValue == 0 || value < romanNumValue) {
-				romanNumNumber = num
-				romanNumValue = value
-			}
+		if len(num) == 0 {
+			continue
+		}
+		value := uc.romanToInt(num)
+		isPrime := uc.isPrimeNumber(value)
+		if isPrime && (romanNumValue == 0 || value < romanNumValue) {
+			romanNumNumber = num
+			romanNumValue = value
 		}
 	}
 
@@ -65,6 +62,12 @@ func (uc *UseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumer
 	}
 
 	return romanNum, nil
+}
+
+// Get roman numeral from a text
+func (uc *UseCase) getRomanNumbers(s string) []string {
+	r := regexp.MustCompile(RomanNumeralPattern)
+	return r.FindAllString(s, -1)
 }
 
 // Parse roman numeral to int value
