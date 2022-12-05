@@ -10,6 +10,7 @@ import (
 	"regexp"
 )
 
+// Roman numerals
 var RomanNumerals = map[rune]int{
 	'I': 1,
 	'V': 5,
@@ -45,9 +46,8 @@ func (uc *UseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumer
 	var romanNumValue int
 	for _, num := range romanNums {
 		if len(num) > 0 {
-			value := romanToInt(num)
-			isPrime := isPrimeNumber(value)
-			fmt.Printf("%s|%d|%t\n", num, value, isPrime)
+			value := uc.romanToInt(num)
+			isPrime := uc.isPrimeNumber(value)
 			if isPrime && (romanNumValue == 0 || value < romanNumValue) {
 				romanNumNumber = num
 				romanNumValue = value
@@ -64,12 +64,11 @@ func (uc *UseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumer
 		Value:  romanNumValue,
 	}
 
-	fmt.Println(romanNum)
-
 	return romanNum, nil
 }
 
-func romanToInt(s string) int {
+// Parse roman numeral to int value
+func (uc *UseCase) romanToInt(s string) int {
 	sum := 0
 	greatest := 0
 	for i := len(s) - 1; i >= 0; i-- {
@@ -85,7 +84,8 @@ func romanToInt(s string) int {
 	return sum
 }
 
-func isPrimeNumber(num int) bool {
+// Check if the number is prime
+func (uc *UseCase) isPrimeNumber(num int) bool {
 	if num < 2 {
 		return false
 	}
