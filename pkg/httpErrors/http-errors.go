@@ -11,7 +11,7 @@ import (
 var (
 	BadRequest          = errors.New("bad request")
 	RequestTimeoutError = errors.New("request timeout")
-	InternalServerError = errors.New("internal Server Error")
+	InternalServerError = errors.New("internal server error")
 )
 
 // Rest error interface
