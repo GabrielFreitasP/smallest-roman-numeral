@@ -32,8 +32,8 @@ func NewRomanNumeralUseCase() *RomanNumeralUseCase {
 }
 
 // Search the smaller roman numeral in text
-func (uc *RomanNumeralUseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumeralSearch) (*models.RomanNumeral, error) {
-	span, ctx := opentracing.StartSpanFromContext(ctx, "numUC.Search")
+func (uc *RomanNumeralUseCase) Search(c context.Context, romanNumSearch *models.RomanNumeralSearch) (*models.RomanNumeral, error) {
+	span, _ := opentracing.StartSpanFromContext(c, "numUC.Search")
 	defer span.Finish()
 
 	romanNums := uc.getRomanNumbers(romanNumSearch.Text)
