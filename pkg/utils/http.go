@@ -31,15 +31,21 @@ func GetIPAddress(c echo.Context) string {
 }
 
 // Error response with logging error for echo context
-func ErrResponseWithLog(ctx echo.Context, logger logger.Logger, err error) error {
+func ErrResponseDefault(ctx echo.Context, logger logger.Logger, err error) error {
 	LogResponseError(ctx, logger, err)
 	return ctx.JSON(httpErrors.ErrorResponse(err))
 }
 
 // Error response with logging error for echo context
+func ErrResponse(ctx echo.Context, logger logger.Logger, statusCode int, err error) error {
+	LogResponseError(ctx, logger, err)
+	return ctx.JSON(statusCode, httpErrors.RestError{ErrStatus: statusCode, ErrError: err.Error(), ErrCauses: err})
+}
+
+// Error response with logging error for echo context
 func LogResponseError(ctx echo.Context, logger logger.Logger, err error) {
 	logger.Errorf(
-		"ErrResponseWithLog, RequestID: %s, IPAddress: %s, Error: %s",
+		"ErrResponse, RequestID: %s, IPAddress: %s, Error: %s",
 		GetRequestID(ctx),
 		GetIPAddress(ctx),
 		err,

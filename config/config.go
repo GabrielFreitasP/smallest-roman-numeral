@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+const configPath = "./config/config-local"
+
 // App config struct
 type Config struct {
 	Server  Server
@@ -48,10 +50,10 @@ type Jaeger struct {
 }
 
 // Load config file from given path
-func LoadConfig(filename string) (*viper.Viper, error) {
+func LoadConfig() (*viper.Viper, error) {
 	v := viper.New()
 
-	v.SetConfigName(filename)
+	v.SetConfigName(configPath)
 	v.AddConfigPath(".")
 	v.AutomaticEnv()
 	if err := v.ReadInConfig(); err != nil {

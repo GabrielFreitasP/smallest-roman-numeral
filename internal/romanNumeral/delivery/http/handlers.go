@@ -25,12 +25,14 @@ func NewRomanNumeralHandlers(uc romanNumeral.UseCase, logger logger.Logger) *rom
 
 // Search
 // @Summary Search roman numeral
-// @Description Search roman numeral in text
+// @Description Search roman numeral from text
 // @Tags RomanNumeral
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.RomanNumeral
+// @Failure 400 {object} httpErrors.RestErr
 // @Failure 404 {object} httpErrors.RestErr
+// @Failure 500 {object} httpErrors.RestErr
 // @Router /search [post]
 func (h *romanNumeralHandlers) Search() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -40,12 +42,15 @@ func (h *romanNumeralHandlers) Search() echo.HandlerFunc {
 		romanNumeralSearch := &models.RomanNumeralSearch{}
 		err := utils.SanitizeRequest(c, romanNumeralSearch)
 		if err != nil {
-			return utils.ErrResponseWithLog(c, h.logger, err)
+			return utils.ErrResponseDefault(c, h.logger, err)
 		}
 
 		foundRomanNumeral, err := h.uc.Search(ctx, romanNumeralSearch)
 		if err != nil {
-			return utils.ErrResponseWithLog(c, h.logger, err)
+			if err == romanNumeral.PrimeRomanNumeralNotFound {
+				return utils.ErrResponse(c, h.logger, http.StatusNotFound, err)
+			}
+			return utils.ErrResponseDefault(c, h.logger, err)
 		}
 
 		return c.JSON(http.StatusOK, foundRomanNumeral)

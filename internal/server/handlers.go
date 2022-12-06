@@ -24,7 +24,7 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	}
 
 	// UseCases
-	numUC := romanNumeralUseCase.NewSessionUseCase()
+	numUC := romanNumeralUseCase.NewRomanNumeralUseCase()
 
 	// Handlers
 	numHandlers := romanNumeralHttp.NewRomanNumeralHandlers(numUC, s.logger)
