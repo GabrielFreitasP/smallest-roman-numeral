@@ -23,16 +23,16 @@ var RomanNumerals = map[rune]int{
 }
 
 // Roman numeral use case struct
-type UseCase struct {
+type RomanNumeralUseCase struct {
 }
 
 // Roman numeral use case constructor
-func NewRomanNumeralUseCase() *UseCase {
-	return &UseCase{}
+func NewRomanNumeralUseCase() *RomanNumeralUseCase {
+	return &RomanNumeralUseCase{}
 }
 
 // Search the smaller roman numeral in text
-func (uc *UseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumeralSearch) (*models.RomanNumeral, error) {
+func (uc *RomanNumeralUseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumeralSearch) (*models.RomanNumeral, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "numUC.Search")
 	defer span.Finish()
 
@@ -65,13 +65,13 @@ func (uc *UseCase) Search(ctx context.Context, romanNumSearch *models.RomanNumer
 }
 
 // Get roman numeral from a text
-func (uc *UseCase) getRomanNumbers(s string) []string {
+func (uc *RomanNumeralUseCase) getRomanNumbers(s string) []string {
 	r := regexp.MustCompile(RomanNumeralPattern)
 	return r.FindAllString(s, -1)
 }
 
 // Parse roman numeral to int value
-func (uc *UseCase) romanToInt(s string) int {
+func (uc *RomanNumeralUseCase) romanToInt(s string) int {
 	sum := 0
 	greatest := 0
 	for i := len(s) - 1; i >= 0; i-- {
@@ -88,7 +88,7 @@ func (uc *UseCase) romanToInt(s string) int {
 }
 
 // Check if the number is prime
-func (uc *UseCase) isPrimeNumber(num int) bool {
+func (uc *RomanNumeralUseCase) isPrimeNumber(num int) bool {
 	if num < 2 {
 		return false
 	}

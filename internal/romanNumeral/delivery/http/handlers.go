@@ -25,12 +25,14 @@ func NewRomanNumeralHandlers(uc romanNumeral.UseCase, logger logger.Logger) *rom
 
 // Search
 // @Summary Search roman numeral
-// @Description Search roman numeral in text
+// @Description Search roman numeral from text
 // @Tags RomanNumeral
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.RomanNumeral
+// @Failure 400 {object} httpErrors.RestErr
 // @Failure 404 {object} httpErrors.RestErr
+// @Failure 500 {object} httpErrors.RestErr
 // @Router /search [post]
 func (h *romanNumeralHandlers) Search() echo.HandlerFunc {
 	return func(c echo.Context) error {

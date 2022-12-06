@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestRomanNumeralUC_Search(t *testing.T) {
+func TestRomanNumeralUseCase_Search(t *testing.T) {
 	cases := []struct {
 		name        string
 		param       *models.RomanNumeralSearch
