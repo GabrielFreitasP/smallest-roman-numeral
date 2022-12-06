@@ -36,3 +36,7 @@ mocks:
 	-source=internal/romanNumeral/usecase.go \
 	-destination=internal/romanNumeral/mock/usecase.go \
 	-package=mock
+	~/go/bin/mockgen \
+	-source=internal/romanNumeral/delivery.go \
+	-destination=internal/romanNumeral/mock/delivery.go \
+	-package=mock

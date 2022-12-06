@@ -8,5 +8,5 @@ import (
 
 // Map roman numeral routes
 func MapRomanNumeralRoutes(e *echo.Echo, h romanNumeral.Handlers) {
-	e.POST("/search", h.Search())
+	e.POST("/search", h.Search()).Name = "Search"
 }
