@@ -4,6 +4,8 @@ go 1.19
 
 require (
 	github.com/go-playground/validator/v10 v10.11.1
+	github.com/golang/mock v1.4.4
+	github.com/google/uuid v1.1.2
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/microcosm-cc/bluemonday v1.0.21
 	github.com/opentracing/opentracing-go v1.2.0

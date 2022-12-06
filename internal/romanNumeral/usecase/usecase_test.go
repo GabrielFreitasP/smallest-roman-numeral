@@ -2,10 +2,12 @@ package usecase
 
 import (
 	"context"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+
 	"github.com/GabrielFreitasP/smallest-roman-numeral/internal/models"
 	"github.com/GabrielFreitasP/smallest-roman-numeral/internal/romanNumeral"
-	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestRomanNumeralUseCase_Search(t *testing.T) {
