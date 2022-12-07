@@ -1,11 +1,11 @@
 package server
 
 import (
-	"net/http"
-
+	"github.com/GabrielFreitasP/smallest-roman-numeral/docs"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
+	"net/http"
 
 	apiMiddleware "github.com/GabrielFreitasP/smallest-roman-numeral/internal/middleware"
 	romanNumeralHttp "github.com/GabrielFreitasP/smallest-roman-numeral/internal/romanNumeral/delivery/http"
@@ -36,12 +36,22 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	e.Use(middleware.RequestID())
 
 	// Routes
+	s.mapHealthRoute(e)
+	s.mapSwaggerRoute(e)
 	romanNumeralHttp.MapRomanNumeralRoutes(e, numHandlers)
 
-	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	return nil
+}
+
+// Set health route
+func (s *Server) mapHealthRoute(e *echo.Echo) {
 	e.GET("", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "OK"})
 	})
+}
 
-	return nil
+// Set swagger route
+func (s *Server) mapSwaggerRoute(e *echo.Echo) {
+	docs.SwaggerInfo.Title = "Smallest Roman Numeral"
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 }

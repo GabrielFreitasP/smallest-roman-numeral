@@ -24,15 +24,16 @@ func NewRomanNumeralHandlers(uc romanNumeral.UseCase, logger logger.Logger) *rom
 }
 
 // Search
-// @Summary Search roman numeral
-// @Description Search roman numeral from text
-// @Tags RomanNumeral
+// @Summary Search Roman numeral
+// @Description Search Roman numeral in text
+// @Tags Roman Numeral
 // @Accept json
 // @Produce json
+// @Param romanNumeralSearch body models.RomanNumeralSearch true "Roman Numeral Search"
 // @Success 200 {object} models.RomanNumeral
-// @Failure 400 {object} httpErrors.RestErr
-// @Failure 404 {object} httpErrors.RestErr
-// @Failure 500 {object} httpErrors.RestErr
+// @Failure 400 {object} httpErrors.RestError
+// @Failure 404 {object} httpErrors.RestError
+// @Failure 500 {object} httpErrors.RestError
 // @Router /search [post]
 func (h *romanNumeralHandlers) Search() echo.HandlerFunc {
 	return func(c echo.Context) error {

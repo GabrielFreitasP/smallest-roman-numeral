@@ -17,6 +17,9 @@ test:
 lint:
 	golangci-lint run ./...
 
+swagger:
+	swag init -g **/**/*.go
+
 coverage:
 	mkdir -p ./coverage
 	go test ./... -coverprofile ./coverage/cover.out.tmp

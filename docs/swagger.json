@@ -1,0 +1,99 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Smallest Roman Numeral API",
+        "title": "Smallest Roman Numeral API",
+        "contact": {
+            "name": "Gabriel de Freitas Pinheiro",
+            "url": "https://github.com/GabrielFreitasP",
+            "email": "gabrieldefreitaspinheiro@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/search": {
+            "post": {
+                "description": "Search Roman numeral from text",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Roman Numeral"
+                ],
+                "summary": "Search Roman numeral",
+                "parameters": [
+                    {
+                        "description": "Roman Numeral Search",
+                        "name": "romanNumeralSearch",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RomanNumeralSearch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.RomanNumeral"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "httpErrors.RestError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.RomanNumeral": {
+            "type": "object",
+            "properties": {
+                "number": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.RomanNumeralSearch": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

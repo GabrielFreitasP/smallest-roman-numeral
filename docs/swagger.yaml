@@ -1,0 +1,64 @@
+definitions:
+  httpErrors.RestError:
+    properties:
+      error:
+        type: string
+      status:
+        type: integer
+    type: object
+  models.RomanNumeral:
+    properties:
+      number:
+        type: string
+      value:
+        type: integer
+    type: object
+  models.RomanNumeralSearch:
+    properties:
+      text:
+        type: string
+    type: object
+info:
+  contact:
+    email: gabrieldefreitaspinheiro@gmail.com
+    name: Gabriel de Freitas Pinheiro
+    url: https://github.com/GabrielFreitasP
+  description: Smallest Roman Numeral API
+  title: Smallest Roman Numeral API
+  version: "1.0"
+paths:
+  /search:
+    post:
+      consumes:
+      - application/json
+      description: Search Roman numeral from text
+      parameters:
+      - description: Roman Numeral Search
+        in: body
+        name: romanNumeralSearch
+        required: true
+        schema:
+          $ref: '#/definitions/models.RomanNumeralSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RomanNumeral'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Search Roman numeral
+      tags:
+      - Roman Numeral
+swagger: "2.0"
