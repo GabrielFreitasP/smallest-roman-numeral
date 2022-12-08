@@ -29,11 +29,8 @@ type Server struct {
 
 // Logger config struct
 type Logger struct {
-	Development       bool
-	DisableCaller     bool
-	DisableStacktrace bool
-	Encoding          string
-	Level             string
+	Encoding string
+	Level    string
 }
 
 // Metrics config struct
